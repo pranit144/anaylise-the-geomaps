@@ -1,0 +1,8 @@
+flask>=2.0.1
+geopy>=2.2.0
+folium>=0.12.1
+selenium>=4.0.0
+pillow>=9.0.0
+webdriver_manager>=3.8.0 
+#python 3.9
+numpy>=1.23.5

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Satellite Image Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                <h1 class="text-center mb-4">Satellite Image Analysis Results</h1>
+                
+                <div class="row">
+                    <!-- Original and Segmented Images -->
+                    <div class="col-lg-8">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3 class="card-title">
+                                            <i class="fas fa-image me-2"></i>Original Image
+                                        </h3>
+                                        <div class="image-wrapper">
+                                            <img src="{{ image_path }}" alt="Original Image" class="analyzed-image">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h3 class="card-title">
+                                            <i class="fas fa-layer-group me-2"></i>Segmented Image
+                                        </h3>
+                                        <div class="image-wrapper">
+                                            <img src="{{ masks['segmented'] }}" alt="Segmented Image" class="analyzed-image">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Panel -->
+                    <div class="col-lg-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h3 class="card-title">
+                                    <i class="fas fa-chart-pie me-2"></i>Distribution Analysis
+                                </h3>
+                                <div class="results-list-wrapper">
+                                    <ul class="results-list">
+                                        {% for feature, percentage in results.items() %}
+                                        <li class="feature-item">
+                                            <div class="feature-header">
+                                                <span class="feature-name">{{ feature|title }}</span>
+                                                <span class="feature-percentage">{{ percentage }}%</span>
+                                            </div>
+                                            <div class="progress">
+                                                <div class="progress-bar feature-{{ feature }}" 
+                                                     style="width: {{ percentage }}%">
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Masks -->
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">
+                            <i class="fas fa-map-marked-alt me-2"></i>Feature Detection Masks
+                        </h3>
+                        <div class="masks-grid">
+                            {% for feature, mask_path in masks.items() %}
+                            {% if feature != 'segmented' %}
+                            <div class="mask-item">
+                                <h4 class="mask-title">{{ feature|title }}</h4>
+                                <div class="mask-wrapper">
+                                    <img src="{{ mask_path }}" alt="{{ feature }} mask" class="mask-image">
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
